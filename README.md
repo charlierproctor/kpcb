@@ -8,7 +8,8 @@
 
 ### Usage
 
-- Run `make` to create the binary.
+- Run `make` to create the `hash` executable. 
+	- `make clean` removes all executables, if you need to start fresh.
 - Run `./hash SIZE`, where `SIZE` is the size of the hash table you wish to create.
 - Now, you'll enter into a small bash-like environment to play with the hash table.
 
