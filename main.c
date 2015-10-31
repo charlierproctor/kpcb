@@ -150,5 +150,6 @@ int main(int argc, char const *argv[]) {
 
 	}
 
+	hashDestroy(h);
 	return EXIT_SUCCESS;
 }

@@ -29,6 +29,10 @@ Hash *hashCreate(size_t size) {
 		free(h);
 		return NULL;
 	}
+	// initialize all the table entries to NULL
+	for (int i = 0; i < h->size; i++) {
+		h->table[i] = NULL;
+	}
 
 	return h;
 }
@@ -118,4 +122,22 @@ const void *hashDelete(Hash *h, const char *key) {
 float hashLoad(Hash *h) {
 	// just divide num_elements by size of table.
 	return (float) h->num_elements / h->size;
+}
+
+// this assumes value was malloc'd at some point...
+void hashDestroy(Hash *h) {
+	Node *elem, *next;
+	// iterate through the table
+	for (int i = 0; i < h->size; i++) {
+		// and through each linked list
+		for (elem = h->table[i]; elem; elem = next) {
+			// free'ing nodes as we go.
+			next = elem->next;
+			free(elem->key);
+			free((void *)elem->obj);
+			free(elem);
+		}
+	}
+	free(h->table);
+	free(h);
 }
