@@ -55,15 +55,18 @@ int main(int argc, char const *argv[]) {
 		exit(EXIT_FAILURE);
 	}
 
+	// create some variables
 	char *command, *key, *obj, *res;
-	command = key = obj = res = NULL;
 
 	while(true) {
+		// initialize the variables and print the prompt
+		command = key = obj = res = NULL;
 		printf("%% ");
 
 		// read the command
 		command = readString();
 
+		// process a set command
 		if (!strcasecmp(command,"set")) {
 			printf("\tkey: ");
 			key = readString();
@@ -73,6 +76,8 @@ int main(int argc, char const *argv[]) {
 
 			printf("\tresult: ");
 			printf(hashSet(h,key,obj) ? "SUCCESS\n" : "FAILURE\n");
+
+		// process a get command
 		} else if (!strcasecmp(command,"get")) {
 			printf("\tkey: ");
 			key = readString();
@@ -81,19 +86,30 @@ int main(int argc, char const *argv[]) {
 			} else {
 				printf("\tresult: NULL\n");
 			}
+
+		// process a delete command
 		} else if (!strcasecmp(command,"delete")) {
 			printf("\tkey: ");
 			key = readString();
 			if ((res = (char *) hashDelete(h,key))){
 				printf("\tresult: %s\n", res);
+				free(res);
 			} else {
 				printf("\tresult: NULL\n");
 			}
+
+		// process a load command
 		} else if (!strcasecmp(command,"load")) {
 			printf("\tresult: %f\n", hashLoad(h));
+
+		// invalid command
 		} else if (strlen(command) > 0) {
 			printf("invalid command\n");
 		}
+
+		// free the command and key, as necessary
+		if (command) { free(command); }
+		if (key) { free(key); }
 
 	}
 
