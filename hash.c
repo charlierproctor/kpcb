@@ -68,3 +68,16 @@ bool hashSet(Hash *h, const char *key, const void *value) {
 	return true;
 }
 
+const void *hashGet(Hash *h, const char *key) {
+
+	// iterate through the linked list at this index in the hash table.
+	for (Node *elem = h->table[hash(key) % h->size]; elem; elem = elem->next) {
+		// compare the key at this index to the desired key
+		if (!strcmp(key,elem->key)) {
+			// we found it!
+			return elem->obj;
+		}
+	}
+	// not in the table
+	return NULL;
+}
