@@ -81,3 +81,32 @@ const void *hashGet(Hash *h, const char *key) {
 	// not in the table
 	return NULL;
 }
+
+const void *hashDelete(Hash *h, const char *key) {
+	
+	// iterate through the linked list at this index in the hash table.
+	// elem is the current element; previous is the previous elemetn
+	for (Node *elem = h->table[hash(key) % h->size], *prev = NULL; 
+		elem; 
+		elem = (prev = elem)->next) {
+		
+		// compare the key at this index to the desired key
+		if (!strcmp(key,elem->key)) {
+
+			// update the pointers to remove this element from the table
+			if (prev == NULL) {
+				h->table[hash(key) % h->size] = elem->next;
+			} else {
+				prev->next = elem->next;
+			}
+
+			// grab and return the object
+			const void *res = elem->obj;
+			free(elem->key);
+			free(elem);
+			return res;
+		}
+	}
+
+	return NULL;
+}

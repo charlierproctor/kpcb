@@ -21,6 +21,6 @@ bool hashSet(Hash *h, const char *key, const void *value);
 
 const void *hashGet(Hash *h, const char *key);
 
-void *hashDelete(Hash *h, const char *key);
+const void *hashDelete(Hash *h, const char *key);
 
 float *hashLoad(Hash *h);
