@@ -1,37 +1,24 @@
 #include "hash.h"
 
-#define USAGE "./test [dict] text"
+#define USAGE "./test dict"
 #define DEFAULT "/usr/share/dict/words"
 #define INITIAL_WORD_LENGTH 16
 
 int main(int argc, char const *argv[]) {
 
 	// bad usage
-	if (argc < 2 || argc > 3) {
+	if (argc > 2) {
 		fprintf(stderr, USAGE);
 		exit(EXIT_FAILURE);
 	} 
 
-	// calculate dict / text strings
-	const char *dictname, *textname;
-	dictname = textname = NULL;
+	// calculate dict string
+	const char *dictname = (argc == 2 ? argv[1] : DEFAULT);
 
-	if (argc == 2) {
-		textname = argv[1];
-		dictname = DEFAULT;
-	} else {
-		dictname = argv[1];
-		textname = argv[2];
-	}
-
-
-	FILE *dict, *text;
-	// open the dictionary and text files.
+	FILE *dict;
+	// open the dictionary file.
 	if (!(dict = fopen(dictname,"r"))) {
 		fprintf(stderr, "failed to open %s.", dictname);
-		exit(EXIT_FAILURE);
-	} else if (!(text = fopen(textname, "r"))) {
-		fprintf(stderr, "failed to open %s.", textname);
 		exit(EXIT_FAILURE);
 	}
 
@@ -91,8 +78,8 @@ int main(int argc, char const *argv[]) {
 	// malloc again
 	word = malloc(sizeof(char) * (size = INITIAL_WORD_LENGTH));
 
-	// read through the text file
-	while ((c = fgetc(text)) != EOF) {
+	// read through words from stdin
+	while ((c = getchar()) != EOF) {
 		// if the array is too small... make it bigger
 		if (i >= size - 1) {
 			word = realloc(word,(size *= 2));
