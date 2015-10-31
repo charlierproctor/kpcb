@@ -33,6 +33,12 @@ char *readString(){
 	return str;
 }
 
+// destroy one of our objects.
+void destroy(void *obj) {
+	// since we're dealing with malloc'd strings, we destroy with one free.
+	free(obj);
+}
+
 int main(int argc, char const *argv[]) {
 
 	// default to a table of 1,000 elements.
@@ -150,6 +156,6 @@ int main(int argc, char const *argv[]) {
 
 	}
 
-	hashDestroy(h);
+	hashDestroy(h,destroy);
 	return EXIT_SUCCESS;
 }

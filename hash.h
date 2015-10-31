@@ -27,4 +27,4 @@ const void *hashDelete(Hash *h, const char *key);
 float hashLoad(Hash *h);
 
 // destroy the hash table, free'ing all memory
-void hashDestroy(Hash *h);
+void hashDestroy(Hash *h, void (*destroy)(void *obj));

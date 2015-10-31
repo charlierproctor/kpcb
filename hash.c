@@ -125,7 +125,7 @@ float hashLoad(Hash *h) {
 }
 
 // this assumes value was malloc'd at some point...
-void hashDestroy(Hash *h) {
+void hashDestroy(Hash *h, void (*destroy)(void *obj)) {
 	Node *elem, *next;
 	// iterate through the table
 	for (int i = 0; i < h->size; i++) {
@@ -134,7 +134,7 @@ void hashDestroy(Hash *h) {
 			// free'ing nodes as we go.
 			next = elem->next;
 			free(elem->key);
-			free((void *)elem->obj);
+			destroy((void *)elem->obj);
 			free(elem);
 		}
 	}
