@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <stdbool.h>
 
 typedef struct node {
-	char *str;					// the key of this element
+	char *key;					// the key of this element
 	const void *obj;			// the arbitrary object reference
 	struct node *next;			// next element the linked list
 } Node;
