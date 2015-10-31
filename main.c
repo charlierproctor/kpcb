@@ -12,8 +12,13 @@ char *readString(){
 
 	char c;
 
-	// read chars until ' ', '\n' or EOF.
-	while((c = getchar()) != EOF && (c != ' ') && (c != '\n')) {
+	// read chars until '\n'.
+	while((c = getchar()) != '\n') {
+		// user is trying to exit... let them
+		if (c == EOF) {
+			exit(EXIT_SUCCESS);
+		}
+
 		// if the array is too small... make it bigger
 		if (i >= size - 2) {
 			str = realloc(str,(size *= 2));
@@ -60,27 +65,33 @@ int main(int argc, char const *argv[]) {
 		command = readString();
 
 		if (!strcasecmp(command,"set")) {
+			printf("\tkey: ");
 			key = readString();
+
+			printf("\tvalue: ");
 			obj = readString();
-			printf("hashSet: ");
+
+			printf("\tresult: ");
 			printf(hashSet(h,key,obj) ? "SUCCESS\n" : "FAILURE\n");
 		} else if (!strcasecmp(command,"get")) {
+			printf("\tkey: ");
 			key = readString();
 			if ((res = (char *) hashGet(h,key))){
-				printf("hashGet: %s\n", res);
+				printf("\tresult: %s\n", res);
 			} else {
-				printf("hashGet: NULL\n");
+				printf("\tresult: NULL\n");
 			}
 		} else if (!strcasecmp(command,"delete")) {
+			printf("\tkey: ");
 			key = readString();
 			if ((res = (char *) hashDelete(h,key))){
-				printf("hashDelete: %s\n", res);
+				printf("\tresult: %s\n", res);
 			} else {
-				printf("hashDelete: NULL\n");
+				printf("\tresult: NULL\n");
 			}
 		} else if (!strcasecmp(command,"load")) {
-			printf("hashLoad: %f\n", hashLoad(h));
-		} else {
+			printf("\tresult: %f\n", hashLoad(h));
+		} else if (strlen(command) > 0) {
 			printf("invalid command\n");
 		}
 
