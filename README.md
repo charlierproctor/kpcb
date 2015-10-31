@@ -33,7 +33,8 @@ Note: You will separately be prompted for the command,key,value as appropriate. 
 
 - The hash table itself lies in the `hash.h`, `hash.c` files. `main.c` contains the code to run the environment.
 - I'm using the `djb2` hash, found at [http://www.cse.yorku.ca/~oz/hash.html](http://www.cse.yorku.ca/~oz/hash.html)
-- Everything is written in C, so the function take the following forms:
+- To optimize for performance, I bring the last checked key to the front of the linked-list at the end of each `get`. Under the assumption that certain elements are accessed more frequently than others, this will decrease the search time at indices where there are collisions.
+- Everything is written in C, so the functions take the following forms:
 
 	```c
 	Hash *hashCreate(size_t size);
