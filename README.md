@@ -45,12 +45,14 @@ Note: You will separately be prompted for the command,key,value as appropriate. 
 - The data structures are defined as:
 
 	```c
+	// node in the hash table.
 	typedef struct node {
 		char *key;					// the key of this element
 		const void *obj;			// the arbitrary object reference
 		struct node *next;			// next element the linked list
 	} Node;
 	
+	// the hash table itself
 	typedef struct hash {
 		Node **table;			// the hash table itself.
 		size_t size;			// size of the hash table

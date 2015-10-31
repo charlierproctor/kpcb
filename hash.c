@@ -11,6 +11,7 @@ size_t hash(const char *str)
     return hash;
 }
 
+// see hash.h for a full explanation
 Hash *hashCreate(size_t size) {
 	// malloc for the table
 	Hash *h = malloc(sizeof(Hash));
@@ -37,6 +38,7 @@ Hash *hashCreate(size_t size) {
 	return h;
 }
 
+// see hash.h for a full explanation
 bool hashSet(Hash *h, const char *key, const void *value) {
 
 	// create a new node
@@ -73,6 +75,7 @@ bool hashSet(Hash *h, const char *key, const void *value) {
 	return true;
 }
 
+// see hash.h for a full explanation
 const void *hashGet(Hash *h, const char *key) {
 
 	// iterate through the linked list at this index in the hash table.
@@ -87,6 +90,7 @@ const void *hashGet(Hash *h, const char *key) {
 	return NULL;
 }
 
+// see hash.h for a full explanation
 const void *hashDelete(Hash *h, const char *key) {
 	
 	// iterate through the linked list at this index in the hash table.
@@ -119,12 +123,13 @@ const void *hashDelete(Hash *h, const char *key) {
 	return NULL;
 }
 
+// see hash.h for a full explanation
 float hashLoad(Hash *h) {
 	// just divide num_elements by size of table.
 	return (float) h->num_elements / h->size;
 }
 
-// this assumes value was malloc'd at some point...
+// see hash.h for a full explanation
 void hashDestroy(Hash *h, void (*destroy)(void *obj)) {
 	Node *elem, *next;
 	// iterate through the table
