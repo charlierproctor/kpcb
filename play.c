@@ -1,7 +1,7 @@
 #include "hash.h"
 
 #define INITIAL_STRING_LENGTH 32
-#define USAGE "USAGE: ./hash SIZE\n"
+#define USAGE "USAGE: ./play SIZE\n"
 #define OPTIONS_FILE "options.txt"
 
 // read an arbitrary length string from stdin.
@@ -11,7 +11,7 @@ char *readString(){
 	char *str = malloc(sizeof(char) * size);
 	size_t i = 0;
 
-	char c;
+	int c;
 
 	// read chars until '\n'.
 	while((c = getchar()) != '\n') {

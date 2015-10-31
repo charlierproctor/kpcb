@@ -3,6 +3,7 @@
 #include <string.h>
 #include <strings.h>
 #include <stdbool.h>
+#include <ctype.h>
 
 // node in the hash table.
 typedef struct node {
