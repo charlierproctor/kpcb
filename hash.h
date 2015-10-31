@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <strings.h>
 #include <stdbool.h>
 
 typedef struct node {
@@ -23,4 +24,4 @@ const void *hashGet(Hash *h, const char *key);
 
 const void *hashDelete(Hash *h, const char *key);
 
-float *hashLoad(Hash *h);
+float hashLoad(Hash *h);

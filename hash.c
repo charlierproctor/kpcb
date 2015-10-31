@@ -50,7 +50,7 @@ bool hashSet(Hash *h, const char *key, const void *value) {
 		return false;
 	}
 	// copy in the string
-	if (strcpy(elem->key,key)) {
+	if (!strcpy(elem->key,key)) {
 		// strcpy failed
 		free(elem);
 		free(elem->key);
