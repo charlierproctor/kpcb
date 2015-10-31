@@ -14,12 +14,21 @@ size_t hash(const char *str)
 Hash *hashCreate(size_t size) {
 	// malloc for the table
 	Hash *h = malloc(sizeof(Hash));
+	if (!h) {
+		// malloc failed
+		return NULL;
+	}
 	
 	// initialize size, num_elements
 	h->size = size;
 	h->num_elements = 0;
 
 	h->table = malloc(sizeof(Node) * h->size);
+	if (!h->table) {
+		// malloc failed
+		free(h);
+		return NULL;
+	}
 
 	return h;
 }
@@ -41,7 +50,12 @@ bool hashSet(Hash *h, const char *key, const void *value) {
 		return false;
 	}
 	// copy in the string
-	strcpy(elem->key,key);
+	if (strcpy(elem->key,key)) {
+		// strcpy failed
+		free(elem);
+		free(elem->key);
+		return false;
+	}
 
 	// attach the value to our struct
 	elem->obj = value;
@@ -53,3 +67,4 @@ bool hashSet(Hash *h, const char *key, const void *value) {
 
 	return true;
 }
+
