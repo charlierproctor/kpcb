@@ -79,10 +79,26 @@ bool hashSet(Hash *h, const char *key, const void *value) {
 const void *hashGet(Hash *h, const char *key) {
 
 	// iterate through the linked list at this index in the hash table.
-	for (Node *elem = h->table[hash(key) % h->size]; elem; elem = elem->next) {
+	// elem is the current element; previous is the previous element
+	size_t hash_val;
+	for (Node *elem = h->table[(hash_val = hash(key) % h->size)], *prev = NULL; 
+		elem; 
+		elem = (prev = elem)->next) {
 		// compare the key at this index to the desired key
 		if (!strcmp(key,elem->key)) {
-			// we found it!
+			// we found it -- let's move it to the front of the linked list
+
+			// if it's not at the front
+			if (prev != NULL) {
+				// update the prev->next pointer.
+				prev->next = elem->next;
+
+				// and put this element at the front
+				elem->next = h->table[hash_val];
+				h->table[hash_val] = elem;
+			}
+
+			// return the object
 			return elem->obj;
 		}
 	}
