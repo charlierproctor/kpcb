@@ -16,10 +16,10 @@ typedef struct hash {
 
 Hash *hashCreate(size_t size);
 
-bool hashSet(Hash *hash, const char *key, const void *value);
+bool hashSet(Hash *h, const char *key, const void *value);
 
-void *hashGet(Hash *hash, const char *key);
+void *hashGet(Hash *h, const char *key);
 
-void *hashDelete(Hash *hash, const char *key);
+void *hashDelete(Hash *h, const char *key);
 
-float *hashLoad(Hash *hash);
+float *hashLoad(Hash *h);
