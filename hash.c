@@ -64,6 +64,7 @@ bool hashSet(Hash *h, const char *key, const void *value) {
 	size_t hash_val = hash(key) % h->size;
 	elem->next = h->table[hash_val];
 	h->table[hash_val] = elem;
+	h->num_elements++;
 
 	return true;
 }
@@ -100,6 +101,9 @@ const void *hashDelete(Hash *h, const char *key) {
 				prev->next = elem->next;
 			}
 
+			// one less element now :(
+			h->num_elements--;
+
 			// grab and return the object
 			const void *res = elem->obj;
 			free(elem->key);
@@ -109,4 +113,9 @@ const void *hashDelete(Hash *h, const char *key) {
 	}
 
 	return NULL;
+}
+
+float hashLoad(Hash *h) {
+	// just divide num_elements by size of table.
+	return (float) h->num_elements / h->size;
 }
