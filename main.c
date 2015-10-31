@@ -2,6 +2,7 @@
 
 #define INITIAL_STRING_LENGTH 32
 #define USAGE "USAGE: ./hash SIZE\n"
+#define OPTIONS_FILE "options.txt"
 
 // read an arbitrary length string from stdin.
 char *readString(){
@@ -53,21 +54,52 @@ int main(int argc, char const *argv[]) {
 		// failed to create hash table
 		fprintf(stderr, "failed to create hash table\n");
 		exit(EXIT_FAILURE);
+	} else {
+		printf("Successfully created a hash table of size %zu.\n",size);
+		FILE *opt;
+		if ((opt = fopen(OPTIONS_FILE,"r"))) {
+			char c;
+			while((c = fgetc(opt)) != EOF) {
+				putchar(c);
+			}
+			fclose(opt);
+		} else {
+			fprintf(stderr, "failed to open %s\n", OPTIONS_FILE);
+			exit(EXIT_FAILURE);
+		}
 	}
 
 	// create some variables
 	char *command, *key, *obj, *res;
+	
+	bool hasSet,hasGet,onOwn;
+	hasSet = hasGet = onOwn = false;
 
-	while(true) {
+	bool keepGoing = true;
+
+	while(keepGoing) {
 		// initialize the variables and print the prompt
 		command = key = obj = res = NULL;
-		printf("%% ");
+
+		// encourage the user to try out the different commands
+		if (!hasSet) {
+			printf("%% (type 'set') ");
+		} else if (!hasGet) {
+			printf("%% (type 'get') ");
+		} else if (!onOwn) {
+			onOwn = true;
+			printf("You're on your own now... available commands: set, get, delete, load\n");
+			printf("%% ");
+		} else {
+			printf("%% ");
+		}
 
 		// read the command
 		command = readString();
 
 		// process a set command
 		if (!strcasecmp(command,"set")) {
+			hasSet = true;
 			printf("\tkey: ");
 			key = readString();
 
@@ -79,6 +111,7 @@ int main(int argc, char const *argv[]) {
 
 		// process a get command
 		} else if (!strcasecmp(command,"get")) {
+			hasGet = true;
 			printf("\tkey: ");
 			key = readString();
 			if ((res = (char *) hashGet(h,key))){
@@ -102,10 +135,14 @@ int main(int argc, char const *argv[]) {
 		} else if (!strcasecmp(command,"load")) {
 			printf("\tresult: %f\n", hashLoad(h));
 
+		// let the user exit
+		} else if (!strcasecmp(command,"exit") || !strcasecmp(command,"quit")) {
+			keepGoing = false;			
+
 		// invalid command
 		} else if (strlen(command) > 0) {
 			printf("invalid command\n");
-		}
+		} 
 
 		// free the command and key, as necessary
 		if (command) { free(command); }

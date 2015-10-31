@@ -1,0 +1,16 @@
+Here's a small bash-like environment to play with the hash table:
+
+The commands:
+	set: stores the given key/value pair in the hash table.
+	get: return the value associated with the given key, or null if no value is 
+	set.
+	delete: delete the value associated with the given key, returning the value 
+	on success or null if the key has no value.
+	load: return a float value representing the load factor.
+	exit: exits the environment
+
+Note: You will separately be prompted for the command,key,value as appropriate. 
+In other words, one command / key / value per line... \n is the delimiter.
+
+Try it out! Type 'set' to get started.
+
