@@ -29,6 +29,7 @@ int main(int argc, char const *argv[]) {
 	}
 
 	int c; 
+	// figure out how many words are in this dictionary
 	size_t num_words = 0;
 	while ((c = fgetc(dict)) != EOF) {
 		num_words += (c == '\n');
@@ -47,6 +48,10 @@ int main(int argc, char const *argv[]) {
 	char *word = malloc(sizeof(char) * (size = INITIAL_WORD_LENGTH));
 	size_t i = 0; 
 
+	// to track the loads
+	size_t words = 0;
+	float correct,actual;
+
 	// read through the dictionary
 	while ((c = fgetc(dict)) != EOF) {
 		// if the array is too small... make it bigger
@@ -57,6 +62,7 @@ int main(int argc, char const *argv[]) {
 			// null-terminate the word, reset i.
 			word[i] = '\0';
 			i = 0;
+			words++;
 
 			// create an object
 			bool *obj = malloc(sizeof(bool));
@@ -65,6 +71,12 @@ int main(int argc, char const *argv[]) {
 			// insert it into the table
 			if (!hashSet(h,word,obj)) {
 				fprintf(stderr, "failed to insert %s.", word);
+				exit(EXIT_FAILURE);
+			}
+
+			// check the load
+			if ((actual = hashLoad(h)) != (correct = (float) words / num_words)) {
+				fprintf(stderr, "load: %f != %f\n",actual,correct);
 				exit(EXIT_FAILURE);
 			}
 		} else {
