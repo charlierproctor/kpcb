@@ -6,18 +6,19 @@
 
 ## Solution
 
-### Usage
+### Build
 
-- Run `make` to create the `hash` executable. 
-	- `make clean` removes all executables, if you need to start fresh.
-- Run `./hash SIZE`, where `SIZE` is the size of the hash table you wish to create.
-- Now, you'll enter into a small bash-like environment to play with the hash table.
+- Run `make play` to create the `play` executable. 
+- Run `make test` to create the `test` executable.
+- `make clean` is there, in case you need it
 
-### Testing
+### Play: A bash-like hash table environment
 
-In order to allow for easy / fun testing, I've put together a small bash-like environment to play with a hash table. The environment stores string values in the table.
+**Usage**: `./play SIZE`, where `SIZE` is the size of the hash table you wish to create
 
-After running `./hash SIZE`, you'll enter the environment.
+I've put together a small bash-like environment to play with a hash table. The environment stores string values in the table.
+
+After running `./play SIZE`, you'll enter the environment.
 
 The available commands:
 
@@ -28,6 +29,22 @@ The available commands:
 - `exit`: exits the environment
 
 Note: You will separately be prompted for the command,key,value as appropriate. In other words, one command / key / value per line... `\n` is the delimiter.
+
+### Test: A spell-checker
+
+**Usage**: `./test [DICT]` where `DICT` is a dictionary of words to spell-check against. `DICT` defaults to `/usr/share/dict/words`.
+
+Words are then read from `STDIN` and spell-checked. If they're mispelled, they're printed out.
+
+1. The test script first creates a hash table and loads in the dictionary. 
+2. The test script reads words from `STDIN` and checks to see if they are in the dictionary. If they are not, it prints them out (they're misspelled).
+
+*./test performs a case-insensitive comparison.*
+
+For example, if we wanted to find all the words the British mispell:
+```
+./test /usr/share/dict/american-english < /usr/share/dict/american-english
+```
 
 ### Design
 

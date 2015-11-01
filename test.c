@@ -4,6 +4,12 @@
 #define DEFAULT "/usr/share/dict/words"
 #define INITIAL_WORD_LENGTH 16
 
+// destroy one of our objects.
+void destroy(void *obj) {
+	// since we're dealing with malloc'd bools, we destroy with one free.
+	free(obj);
+}
+
 int main(int argc, char const *argv[]) {
 
 	// bad usage
@@ -61,22 +67,11 @@ int main(int argc, char const *argv[]) {
 				fprintf(stderr, "failed to insert %s.", word);
 				exit(EXIT_FAILURE);
 			}
-
-			// and create for the next word
-			word = malloc(sizeof(char) * (size = INITIAL_WORD_LENGTH));
 		} else {
 			// set the character
 			word[i++] = tolower(c);
 		}
 	}
-
-	// free the word, as appropriate
-	if (i) {
-		free(word);
-	}
-
-	// malloc again
-	word = malloc(sizeof(char) * (size = INITIAL_WORD_LENGTH));
 
 	// read through words from stdin
 	while ((c = getchar()) != EOF) {
@@ -89,7 +84,7 @@ int main(int argc, char const *argv[]) {
 			word[i] = '\0';
 			i = 0;
 			if (hashGet(h,word) == NULL) {
-				printf("%s\n", word);
+				printf("mispelled: %s\n", word);
 			}
 		} else {
 			// set the character
@@ -100,6 +95,7 @@ int main(int argc, char const *argv[]) {
 	// free the word
 	free(word);
 	
+	hashDestroy(h,destroy);
 
 	return 0;
 }
